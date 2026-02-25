@@ -937,7 +937,7 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
-} 
+}
 
 /* ============================================
    SECTION HEADERS
@@ -982,7 +982,7 @@ body {
    ============================================ */
 .about {
     padding: var(--section-padding) 0;
-    background:rgba(0, 0, 0, 0.563);
+    background: rgba(0, 0, 0, 0.563);
     position: relative;
 }
 
@@ -1294,6 +1294,7 @@ body {
 .project-img {
     width: 100%;
     aspect-ratio: 16/10;
+    max-height: 300px;
     object-fit: cover;
     display: block;
     transition: transform var(--transition-slow);
@@ -1358,7 +1359,7 @@ body {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     border-radius: 50%;
-    color:rgb(0, 229, 255);
+    color: rgb(0, 229, 255);
     font-size: 18px;
     text-decoration: none;
     transform: translateY(20px);
