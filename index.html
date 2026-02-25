@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sahid Afridi - Creative  Developer & Designer Portfolio">
+    <title>Sahid Afridi-Developer</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="profile-aura-black-with-ring.png">
+    <link rel="apple-touch-icon" href="profile-aura-black-with-ring.png">
+
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Particle Background -->
+    <canvas id="particles"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-text">SAHIDAFRIDI</span>
+                <span class="logo-dot">.</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-main">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    <span>Available for Work</span>
+                </div>
+                <h1 class="hero-title">
+                    AFRIDI-DEVEL<span class="logo-dot">.</span> <span class="logo-dot">.</span> <span
+                        class="logo-dot">.</span>
+
+                </h1>
+                <p class="hero-subtitle">
+                    <span class="typing-text">Creative Developer & Designer</span>
+                    <span class="typing-cursor">|</span>
+                </p>
+                <p class="hero-description">
+                    I craft stunning digital experiences that blend creativity with cutting-edge technology.
+                    Let's build something extraordinary together.
+                </p>
+                <div class="hero-cta">
+                    <a href="#projects" class="btn btn-primary magnetic">
+                        <span>View My Work</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="tel:9671016500" class="btn btn-secondary magnetic">
+                        <span>Get in Touch</span>
+                    </a>
+                </div>
+                <div class="hero-socials">
+                    <a href="https://github.com/AFRIDI-DEVELOPER" class="social-link magnetic" aria-label="GitHub"
+                        target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/sahid-afridi-b090b52b1/" class="social-link magnetic"
+                        aria-label="LinkedIn" target="_blank">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="twitter.com" class="social-link magnetic" aria-label="Twitter" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.instagram.com/afridi_devel/" class="social-link magnetic"
+                        aria-label="instagram" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>Scroll Down</span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">About Me</span>
+                <h2 class="section-title reveal-text">Turning Ideas Into <span class="gradient-text">Digital
+                        Reality</span></h2>
+            </div>
+            <div class="about-content">
+                <div class="about-image">
+                    <div class="image-frame glass-card">
+                        <img src="profile-aura-black-with-ring.png" alt="Sahid Afridi" class="about-profile-pic">
+                        <div class="image-glow"></div>
+                    </div>
+                    <div class="floating-card glass-card">
+                        <span class="card-number">3+</span>
+                        <span class="card-label">Years Experience</span>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <p class="about-intro">
+                        I'm a passionate <strong>Full Stack Developer</strong> and <strong>UI/UX Designer</strong>
+                        based in India, dedicated to creating immersive digital experiences that leave lasting
+                        impressions.
+                    </p>
+                    <p>
+                        With expertise spanning front-end magic to back-end architecture, I bring ideas to life
+                        through clean code and stunning visuals. I believe in the power of design to transform
+                        user experiences and drive meaningful engagement.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat-item glass-card">
+                            <span class="stat-number" data-target="50">0</span>
+                            <span class="stat-plus">+</span>
+                            <span class="stat-label">Projects Completed</span>
+                        </div>
+                        <div class="stat-item glass-card">
+                            <span class="stat-number" data-target="30">0</span>
+                            <span class="stat-plus">+</span>
+                            <span class="stat-label">Happy Clients</span>
+                        </div>
+                        <div class="stat-item glass-card">
+                            <span class="stat-number" data-target="100">0</span>
+                            <span class="stat-plus">%</span>
+                            <span class="stat-label">Client Satisfaction</span>
+                        </div>
+                    </div>
+                    <a href="#contact" class="btn btn-primary magnetic">
+                        <span>Let's Work Together</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">My Work</span>
+                <h2 class="section-title reveal-text">Featured <span class="gradient-text">Projects</span></h2>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card glass-card"
+                    onclick="window.open('https://anasiphonestore.netlify.app', '_blank')" style="cursor: pointer;">
+                    <div class="project-image">
+                        <img src="apple-ecommerce.png" alt="E-Commerce Platform" class="project-img"
+                            style="object-fit: contain; background-color: #000000;">
+                        <div class="project-overlay">
+                            <a href="https://anasiphonestore.netlify.app" class="project-link magnetic" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            <a href="#" class="project-link magnetic">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>E-Commerce Platform</h3>
+                        <p>A modern shopping experience with seamless checkout and stunning UI.</p>
+                        <div class="project-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">MongoDB</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card glass-card"
+                    onclick="window.open('file:///Users/sahidafridi/lennis%20scroll/index.html', '_blank')"
+                    style="cursor: pointer;">
+                    <div class="project-image">
+                        <img src="afridi-portfolio-new.png" alt="Portfolio Website" class="project-img"
+                            style="object-fit: contain; background-color: #ffffff;">
+                        <div class="project-overlay">
+                            <a href="file:///Users/sahidafridi/lennis%20scroll/index.html" class="project-link magnetic"
+                                target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            <a href="#" class="project-link magnetic">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Portfolio Website</h3>
+                        <p>A personal portfolio showcasing my skills and projects.</p>
+                        <div class="project-tags">
+                            <span class="tag">HTML5</span>
+                            <span class="tag">CSS3</span>
+                            <span class="tag">JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card glass-card">
+                    <div class="project-image">
+                        <img src="dashboard-analytics.png" alt="Analytics Dashboard" class="project-img"
+                            style="object-fit: contain; background-color: #7c3aed;">
+                        <div class="project-overlay">
+                            <a href="https://analytics-dashboard.example.com" class="project-link magnetic"
+                                target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            <a href="#" class="project-link magnetic">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Analytics Dashboard</h3>
+                        <p>Real-time data visualization with interactive charts and reports.</p>
+                        <div class="project-tags">
+                            <span class="tag">Vue.js</span>
+                            <span class="tag">D3.js</span>
+                            <span class="tag">Firebase</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card glass-card">
+                    <div class="project-image">
+                        <img src="gaming-platform.png" alt="Gaming Platform" class="project-img"
+                            style="object-fit: contain; background-color: #87CEEB;">
+                        <div class="project-overlay">
+                            <a href="#" class="project-link magnetic">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            <a href="#" class="project-link magnetic">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Gaming Platform</h3>
+                        <p>Immersive gaming hub with matchmaking and live streaming.</p>
+                        <div class="project-tags">
+                            <span class="tag">Next.js</span>
+                            <span class="tag">WebSocket</span>
+                            <span class="tag">AWS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="projects-cta">
+                <a href="#" class="btn btn-secondary magnetic">
+                    <span>View All Projects</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Get in Touch</span>
+                <h2 class="section-title reveal-text">Let's Create <span class="gradient-text">Magic Together</span>
+                </h2>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <p class="contact-intro">
+                        Have a project in mind? Let's discuss how we can bring your vision to life
+                        with stunning design and flawless development.
+                    </p>
+                    <div class="contact-details">
+                        <div class="contact-item glass-card">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <span class="contact-label">Email</span>
+                                <a href="mailto:hello@sahidafridi.56786@gmail.com">sahidafridi.56786@gmail.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-item glass-card">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <span class="contact-label">Location</span>
+                                <span>India , haryana -122105</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-socials">
+                        <a href="https://github.com/AFRIDI-DEVELOPER" class="social-link-large magnetic"
+                            target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/sahid-afridi-b090b52b1/" class="social-link-large magnetic"
+                            target="_blank">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://twitter.com/afrideeeeeee" class="social-link-large magnetic" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.instagram.com/afridi_devel/" class="social-link-large magnetic"
+                            target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                <form class="contact-form glass-card" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" required>
+                        <label for="name">Your Name</label>
+                        <span class="focus-border"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" required>
+                        <label for="email">Your Email</label>
+                        <span class="focus-border"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phone" name="phone" required>
+                        <label for="phone">Phone Number</label>
+                        <span class="focus-border"></span>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                        <label for="message">Your Message</label>
+                        <span class="focus-border"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary magnetic btn-submit">
+                        <span>Send Message</span>
+                        <i class="fas fa-paper-plane"></i>
+                        <div class="btn-loader"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <span class="logo-text">SAHIDAFRIDI</span>
+                        <span class="logo-dot">.</span>
+                    </a>
+                    <p>Crafting digital experiences that inspire.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-socials">
+                    <a href="https://github.com/AFRIDI-DEVELOPER" class="social-link magnetic" target="_blank"><i
+                            class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/sahid-afridi-b090b52b1/" class="social-link magnetic"
+                        target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://twitter.com/afrideeeeeee" class="social-link magnetic" target="_blank"><i
+                            class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/afridi_devel/" class="social-link magnetic" target="_blank"><i
+                            class="fab fa-instagram"></i></a>
+                </div>
+
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Sahid Afridi. All rights reserved.</p>
+                <p>Made with <span class="heart">❤</span> and lots of coffee</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
