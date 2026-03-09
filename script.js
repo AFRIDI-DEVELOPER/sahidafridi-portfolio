@@ -22,14 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
    ============================================ */
 function initSmoothScroll() {
     const lenis = new Lenis({
-        duration: 1.2,
+        duration: 2.0,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         direction: 'vertical',
         gestureDirection: 'vertical',
         smooth: true,
-        mouseMultiplier: 1,
+        mouseMultiplier: 0.6,
         smoothTouch: false,
-        touchMultiplier: 2,
+        touchMultiplier: 1.2,
         infinite: false,
     });
 
@@ -48,7 +48,7 @@ function initSmoothScroll() {
             if (target) {
                 lenis.scrollTo(target, {
                     offset: 0,
-                    duration: 1.5,
+                    duration: 2.0,
                 });
             }
         });
@@ -136,25 +136,28 @@ function initParticles() {
         }
     }
 
-    // Create particles
-    const particleCount = Math.min(100, Math.floor(window.innerWidth / 15));
+    // Create particles (reduced count for performance)
+    const particleCount = Math.min(50, Math.floor(window.innerWidth / 30));
     for (let i = 0; i < particleCount; i++) {
         particles.push(new Particle());
     }
 
-    // Draw connections between nearby particles
+    // Draw connections between nearby particles (optimized with distance² check)
     function drawConnections() {
+        const maxDist = 120;
+        const maxDistSq = maxDist * maxDist;
         for (let i = 0; i < particles.length; i++) {
             for (let j = i + 1; j < particles.length; j++) {
                 const dx = particles[i].x - particles[j].x;
                 const dy = particles[i].y - particles[j].y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+                const distSq = dx * dx + dy * dy;
 
-                if (distance < 120) {
+                if (distSq < maxDistSq) {
+                    const distance = Math.sqrt(distSq);
                     ctx.beginPath();
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.strokeStyle = `rgba(0, 212, 255, ${0.1 * (1 - distance / 120)})`;
+                    ctx.strokeStyle = `rgba(0, 212, 255, ${0.1 * (1 - distance / maxDist)})`;
                     ctx.lineWidth = 1;
                     ctx.stroke();
                 }
@@ -247,20 +250,28 @@ function initNavigation() {
     const navLinks = document.querySelector('.nav-links');
     const links = document.querySelectorAll('.nav-link');
 
-    // Scroll effect
-    let lastScroll = 0;
+    // Throttled scroll handler using rAF
+    let scrollTicking = false;
 
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.scrollY;
+    function onScroll() {
+        if (!scrollTicking) {
+            requestAnimationFrame(() => {
+                const currentScroll = window.scrollY;
 
-        if (currentScroll > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+                if (currentScroll > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+
+                highlightNavLink(currentScroll);
+                scrollTicking = false;
+            });
+            scrollTicking = true;
         }
+    }
 
-        lastScroll = currentScroll;
-    });
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     // Mobile toggle
     navToggle.addEventListener('click', () => {
@@ -279,8 +290,8 @@ function initNavigation() {
     // Active link on scroll
     const sections = document.querySelectorAll('section[id]');
 
-    function highlightNavLink() {
-        const scrollPosition = window.scrollY + 100;
+    function highlightNavLink(scrollY) {
+        const scrollPosition = (scrollY || window.scrollY) + 100;
 
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
@@ -297,8 +308,6 @@ function initNavigation() {
             }
         });
     }
-
-    window.addEventListener('scroll', highlightNavLink);
 }
 
 /* ============================================
