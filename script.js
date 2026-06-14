@@ -460,7 +460,7 @@ function initContactForm() {
     const form = document.getElementById('contactForm');
     const submitBtn = form.querySelector('.btn-submit');
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         // Add loading state
@@ -472,24 +472,38 @@ function initContactForm() {
         const phone = document.getElementById('phone').value;
         const message = document.getElementById('message').value;
 
-        // Construct email body
-        const emailBody = `Name: ${name}%0D%0AEmail: ${email}%0D%0APhone: ${phone}%0D%0AMessage: ${message}`;
-        const subject = `New Contact Form Submission from ${name}`;
+        try {
+            const response = await fetch("https://formsubmit.co/ajax/sahidafridi.56786@gmail.com", {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    message: message
+                })
+            });
 
-        // Create mailto link
-        const mailtoLink = `mailto:sahidafridi.56786@gmail.com?subject=${encodeURIComponent(subject)}&body=${emailBody}`;
+            const data = await response.json();
 
-        // Open default email client
-        window.location.href = mailtoLink;
-
-        // Remove loading state
-        submitBtn.classList.remove('loading');
-
-        // Show success message
-        showNotification('Opening your email client...', 'success');
-
-        // Reset form
-        form.reset();
+            if (data.success) {
+                // Show success message
+                showNotification('Message sent successfully!', 'success');
+                // Reset form
+                form.reset();
+            } else {
+                showNotification('Something went wrong. Please try again.', 'error');
+            }
+        } catch (error) {
+            showNotification('Error sending message. Please try again later.', 'error');
+            console.error(error);
+        } finally {
+            // Remove loading state
+            submitBtn.classList.remove('loading');
+        }
     });
 }
 

@@ -162,7 +162,253 @@
         </div>
     </section>
 
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Expertise</span>
+                <h2 class="section-title reveal-text">Technical <span class="gradient-text">Skills & Tech Stack</span></h2>
+            </div>
+            
+            <div class="bento-grid">
+                <!-- React: Large Block (col-2, row-2) -->
+                <div class="bento-card col-2 row-2 glass-card" style="--card-color: #61DAFB;">
+                    <div class="bento-content">
+                        <div class="card-icon-wrapper">
+                            <i class="fab fa-react"></i>
+                        </div>
+                        <div class="card-text">
+                            <h3>React.js</h3>
+                            <p class="skill-desc">SPA Architecture, Hooks, Custom Components, Context API, and Complex State Management.</p>
+                        </div>
+                    </div>
+                    <!-- Decorational Code Snippet -->
+                    <div class="code-snippet-bg">
+                        <div class="code-scroll-container">
+                            <pre><code><span class="keyword">import</span> { <span class="variable">useState</span>, <span class="variable">useEffect</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
 
+<span class="keyword">export default function</span> <span class="function">App</span>() {
+  <span class="keyword">const</span> [<span class="variable">glow</span>, <span class="function">setGlow</span>] = <span class="function">useState</span>(<span class="boolean">true</span>);
+  <span class="keyword">const</span> [<span class="variable">data</span>, <span class="function">setData</span>] = <span class="function">useState</span>([]);
+
+  <span class="function">useEffect</span>(() =&gt; {
+    <span class="function">fetchData</span>().<span class="function">then</span>(<span class="function">setData</span>);
+  }, []);
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;Card</span> <span class="variable">className</span>=<span class="string">"glass"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;ReactLogo</span> <span class="variable">active</span>={<span class="variable">glow</span>} <span class="tag">/&gt;</span>
+      <span class="tag">&lt;DataGrid</span> <span class="variable">items</span>={<span class="variable">data</span>} <span class="tag">/&gt;</span>
+    <span class="tag">&lt;/Card&gt;</span>
+  );
+}</code></pre>
+                            <!-- Duplicated block for seamless scroll loop -->
+                            <pre aria-hidden="true"><code><span class="keyword">import</span> { <span class="variable">useState</span>, <span class="variable">useEffect</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">export default function</span> <span class="function">App</span>() {
+  <span class="keyword">const</span> [<span class="variable">glow</span>, <span class="function">setGlow</span>] = <span class="function">useState</span>(<span class="boolean">true</span>);
+  <span class="keyword">const</span> [<span class="variable">data</span>, <span class="function">setData</span>] = <span class="function">useState</span>([]);
+
+  <span class="function">useEffect</span>(() =&gt; {
+    <span class="function">fetchData</span>().<span class="function">then</span>(<span class="function">setData</span>);
+  }, []);
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;Card</span> <span class="variable">className</span>=<span class="string">"glass"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;ReactLogo</span> <span class="variable">active</span>={<span class="variable">glow</span>} <span class="tag">/&gt;</span>
+      <span class="tag">&lt;DataGrid</span> <span class="variable">items</span>={<span class="variable">data</span>} <span class="tag">/&gt;</span>
+    <span class="tag">&lt;/Card&gt;</span>
+  );
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JavaScript: Wide Block (col-2) -->
+                <div class="bento-card col-2 glass-card" style="--card-color: #F7DF1E;">
+                    <div class="bento-content">
+                        <div class="card-icon-wrapper">
+                            <i class="fab fa-js"></i>
+                        </div>
+                        <div class="card-text">
+                            <h3>JavaScript (ES6+)</h3>
+                            <p class="skill-desc">Asynchronous JS, Promises, DOM Manipulation, and modern syntax.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tailwind: Tall Block (row-2) -->
+                <div class="bento-card row-2 glass-card" style="--card-color: #38B2AC;">
+                    <div class="bento-content">
+                        <div class="card-icon-wrapper">
+                            <svg class="tailwind-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.001 4.8C9.531 4.8 7.747 6.033 6.647 8.5C8.847 8.5 10.222 7.577 10.772 5.733C11.378 3.707 12.87 2.213 15.244 2.213C18.675 2.213 20.875 3.9 21.844 7.275C19.781 7.275 18.232 8.358 17.198 10.525C16.533 11.916 15.176 13.067 12.001 13.067C9.531 13.067 7.747 14.3 6.647 16.767C8.847 16.767 10.222 15.844 10.772 14C11.378 11.973 12.87 10.48 15.244 10.48C18.675 10.48 20.875 12.167 21.844 15.542C19.781 15.542 18.232 16.625 17.198 18.792C16.533 20.183 15.176 21.333 12.001 21.333C8.57 21.333 6.37 19.646 5.401 16.271C7.464 16.271 9.013 15.188 10.047 13.021C10.712 11.63 12.069 10.48 15.244 10.48C15.244 10.48 12.001 6.8 12.001 4.8Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <div class="card-text">
+                            <h3>Tailwind CSS</h3>
+                            <p class="skill-desc">Utility-First Design, Responsive Layouts.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CSS3 & HTML5: Small Blocks -->
+                <div class="bento-card glass-card" style="--card-color: #2965F1;">
+                    <div class="bento-content">
+                        <div class="card-icon-wrapper">
+                            <i class="fab fa-css3-alt"></i>
+                        </div>
+                        <div class="card-text">
+                            <h3>CSS3</h3>
+                            <p class="skill-desc">Flexbox, Grid, Animations.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- React Native: Wide Block (col-2) -->
+                <div class="bento-card col-2 glass-card" style="--card-color: #61DAFB;">
+                    <div class="bento-content">
+                        <div class="card-icon-wrapper">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="card-text">
+                            <h3>React Native</h3>
+                            <p class="skill-desc">Cross-platform mobile app development.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Supabase: Tall Block (row-2) -->
+                <div class="bento-card row-2 glass-card" style="--card-color: #3ECF8E;">
+                    <div class="bento-content">
+                        <div class="card-icon-wrapper">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="card-text">
+                            <h3>Supabase</h3>
+                            <p class="skill-desc">PostgreSQL Databases, Realtime Sync, Auth Rules.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Small Blocks -->
+                <div class="bento-card glass-card center-content" style="--card-color: #E34F26;">
+                    <div class="bento-content">
+                        <div class="card-icon-wrapper">
+                            <i class="fab fa-html5"></i>
+                        </div>
+                        <h4>HTML5</h4>
+                    </div>
+                    <div class="code-snippet-bg">
+                        <div class="code-scroll-container" style="animation-duration: 12s;">
+                            <pre><code><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="variable">lang</span>=<span class="string">"en"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="variable">charset</span>=<span class="string">"UTF-8"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span>App<span class="tag">&lt;/title&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+  <span class="tag">&lt;nav&gt;</span>...<span class="tag">&lt;/nav&gt;</span>
+  <span class="tag">&lt;main&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Hello<span class="tag">&lt;/h1&gt;</span>
+  <span class="tag">&lt;/main&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+                            <pre aria-hidden="true"><code><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="variable">lang</span>=<span class="string">"en"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="variable">charset</span>=<span class="string">"UTF-8"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span>App<span class="tag">&lt;/title&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+  <span class="tag">&lt;nav&gt;</span>...<span class="tag">&lt;/nav&gt;</span>
+  <span class="tag">&lt;main&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Hello<span class="tag">&lt;/h1&gt;</span>
+  <span class="tag">&lt;/main&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bento-card glass-card center-content" style="--card-color: #A855F7;">
+                    <div class="bento-content">
+                        <div class="card-icon-wrapper">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>XML</h4>
+                    </div>
+                    <div class="code-snippet-bg">
+                        <div class="code-scroll-container" style="animation-duration: 10s;">
+                            <pre><code><span class="tag">&lt;?xml</span> <span class="variable">version</span>=<span class="string">"1.0"</span><span class="tag">?&gt;</span>
+<span class="tag">&lt;data&gt;</span>
+  <span class="tag">&lt;user</span> <span class="variable">id</span>=<span class="string">"1"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;name&gt;</span>John<span class="tag">&lt;/name&gt;</span>
+    <span class="tag">&lt;role&gt;</span>Dev<span class="tag">&lt;/role&gt;</span>
+  <span class="tag">&lt;/user&gt;</span>
+  <span class="tag">&lt;user</span> <span class="variable">id</span>=<span class="string">"2"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;name&gt;</span>Jane<span class="tag">&lt;/name&gt;</span>
+    <span class="tag">&lt;role&gt;</span>Designer<span class="tag">&lt;/role&gt;</span>
+  <span class="tag">&lt;/user&gt;</span>
+<span class="tag">&lt;/data&gt;</span></code></pre>
+                            <pre aria-hidden="true"><code><span class="tag">&lt;?xml</span> <span class="variable">version</span>=<span class="string">"1.0"</span><span class="tag">?&gt;</span>
+<span class="tag">&lt;data&gt;</span>
+  <span class="tag">&lt;user</span> <span class="variable">id</span>=<span class="string">"1"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;name&gt;</span>John<span class="tag">&lt;/name&gt;</span>
+    <span class="tag">&lt;role&gt;</span>Dev<span class="tag">&lt;/role&gt;</span>
+  <span class="tag">&lt;/user&gt;</span>
+  <span class="tag">&lt;user</span> <span class="variable">id</span>=<span class="string">"2"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;name&gt;</span>Jane<span class="tag">&lt;/name&gt;</span>
+    <span class="tag">&lt;role&gt;</span>Designer<span class="tag">&lt;/role&gt;</span>
+  <span class="tag">&lt;/user&gt;</span>
+<span class="tag">&lt;/data&gt;</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bento-card glass-card center-content" style="--card-color: #F05032;">
+                    <div class="bento-content">
+                        <div class="card-icon-wrapper">
+                            <i class="fab fa-git-alt"></i>
+                        </div>
+                        <h4>Git</h4>
+                    </div>
+                </div>
+
+                <div class="bento-card glass-card center-content" style="--card-color: #ffffff;">
+                    <div class="bento-content">
+                        <div class="card-icon-wrapper">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <h4>GitHub</h4>
+                    </div>
+                </div>
+
+                <!-- FormSubmit: Wide Block -->
+                <div class="bento-card col-2 glass-card" style="--card-color: #ff4d4d;">
+                    <div class="bento-content">
+                        <div class="card-icon-wrapper">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                        <div class="card-text">
+                            <h3>FormSubmit</h3>
+                            <p class="skill-desc">Serverless form endpoints and backend form routing.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bento-card glass-card center-content" style="--card-color: #673AB7;">
+                    <div class="bento-content">
+                        <div class="card-icon-wrapper">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h4>Hostinger</h4>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     <!-- Projects Section -->
     <section id="projects" class="projects">
@@ -175,7 +421,7 @@
                 <div class="project-card glass-card"
                     onclick="window.open('https://anasiphonestore.netlify.app', '_blank')" style="cursor: pointer;">
                     <div class="project-image">
-                        <img src="apple-ecommerce.png" alt="E-Commerce Platform" class="project-img"
+                        <img src="ecommerce-project.png" alt="E-Commerce Platform" class="project-img"
                             style="object-fit: cover; background-color: #000000;">
                         <div class="project-overlay">
                             <a href="https://anasiphonestore.netlify.app" class="project-link magnetic" target="_blank">
@@ -200,7 +446,7 @@
                     onclick="window.open('file:///Users/sahidafridi/lennis%20scroll/index.html', '_blank')"
                     style="cursor: pointer;">
                     <div class="project-image">
-                        <img src="afridi-portfolio-new.png" alt="Portfolio Website" class="project-img"
+                        <img src="portfolio-project.png" alt="Portfolio Website" class="project-img"
                             style="object-fit: cover; background-color: #ffffff;">
                         <div class="project-overlay">
                             <a href="file:///Users/sahidafridi/lennis%20scroll/index.html" class="project-link magnetic"
@@ -224,7 +470,7 @@
                 </div>
                 <div class="project-card glass-card">
                     <div class="project-image">
-                        <img src="dashboard-analytics.png" alt="Analytics Dashboard" class="project-img"
+                        <img src="analytics-project.png" alt="Analytics Dashboard" class="project-img"
                             style="object-fit: cover; background-color: #7c3aed;">
                         <div class="project-overlay">
                             <a href="https://analytics-dashboard.example.com" class="project-link magnetic"
@@ -248,7 +494,7 @@
                 </div>
                 <div class="project-card glass-card">
                     <div class="project-image">
-                        <img src="gaming-platform.png" alt="Gaming Platform" class="project-img"
+                        <img src="gaming-project.png" alt="Gaming Platform" class="project-img"
                             style="object-fit: cover; background-color: #87CEEB;">
                         <div class="project-overlay">
                             <a href="#" class="project-link magnetic">
@@ -335,22 +581,18 @@
                     <div class="form-group">
                         <input type="text" id="name" name="name" required>
                         <label for="name">Your Name</label>
-                        <span class="focus-border"></span>
                     </div>
                     <div class="form-group">
                         <input type="email" id="email" name="email" required>
                         <label for="email">Your Email</label>
-                        <span class="focus-border"></span>
                     </div>
                     <div class="form-group">
                         <input type="tel" id="phone" name="phone" required>
                         <label for="phone">Phone Number</label>
-                        <span class="focus-border"></span>
                     </div>
                     <div class="form-group">
                         <textarea id="message" name="message" rows="5" required></textarea>
                         <label for="message">Your Message</label>
-                        <span class="focus-border"></span>
                     </div>
                     <button type="submit" class="btn btn-primary magnetic btn-submit">
                         <span>Send Message</span>
