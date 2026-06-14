@@ -57,7 +57,7 @@
                     <span>Available for Work</span>
                 </div>
                 <h1 class="hero-title">
-                    AFRIDI-DEVEL<span class="logo-dot">.</span> <span class="logo-dot">.</span> <span
+                    AFRIDI-DVLPR<span class="logo-dot">.</span> <span class="logo-dot">.</span> <span
                         class="logo-dot">.</span>
 
                 </h1>
@@ -184,39 +184,87 @@
                     </div>
                     <!-- Decorational Code Snippet -->
                     <div class="code-snippet-bg">
-                        <div class="code-scroll-container">
-                            <pre><code><span class="keyword">import</span> { <span class="variable">useState</span>, <span class="variable">useEffect</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+                        <div class="code-scroll-container" style="animation-duration: 35s;">
+                            <pre><code><span class="keyword">import</span> { <span class="variable">useState</span>, <span class="variable">useEffect</span>, <span class="variable">useCallback</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { <span class="variable">Card</span>, <span class="variable">ReactLogo</span>, <span class="variable">DataGrid</span> } <span class="keyword">from</span> <span class="string">'@/components'</span>;
+<span class="keyword">import</span> { <span class="variable">useAuth</span> } <span class="keyword">from</span> <span class="string">'@/hooks/useAuth'</span>;
 
-<span class="keyword">export default function</span> <span class="function">App</span>() {
+<span class="keyword">export default function</span> <span class="function">DashboardApp</span>() {
   <span class="keyword">const</span> [<span class="variable">glow</span>, <span class="function">setGlow</span>] = <span class="function">useState</span>(<span class="boolean">true</span>);
   <span class="keyword">const</span> [<span class="variable">data</span>, <span class="function">setData</span>] = <span class="function">useState</span>([]);
+  <span class="keyword">const</span> [<span class="variable">isLoading</span>, <span class="function">setIsLoading</span>] = <span class="function">useState</span>(<span class="boolean">true</span>);
+  <span class="keyword">const</span> { <span class="variable">user</span> } = <span class="function">useAuth</span>();
+
+  <span class="keyword">const</span> <span class="function">loadData</span> = <span class="function">useCallback</span>(<span class="keyword">async</span> () =&gt; {
+    <span class="keyword">try</span> {
+      <span class="function">setIsLoading</span>(<span class="boolean">true</span>);
+      <span class="keyword">const</span> <span class="variable">result</span> = <span class="keyword">await</span> <span class="function">fetchUserData</span>(<span class="variable">user</span>.<span class="variable">id</span>);
+      <span class="function">setData</span>(<span class="variable">result</span>);
+    } <span class="keyword">catch</span> (<span class="variable">error</span>) {
+      <span class="variable">console</span>.<span class="function">error</span>(<span class="string">'Failed to fetch data'</span>, <span class="variable">error</span>);
+    } <span class="keyword">finally</span> {
+      <span class="function">setIsLoading</span>(<span class="boolean">false</span>);
+    }
+  }, [<span class="variable">user</span>]);
 
   <span class="function">useEffect</span>(() =&gt; {
-    <span class="function">fetchData</span>().<span class="function">then</span>(<span class="function">setData</span>);
-  }, []);
+    <span class="keyword">if</span> (<span class="variable">user</span>) <span class="function">loadData</span>();
+  }, [<span class="variable">user</span>, <span class="variable">loadData</span>]);
+
+  <span class="keyword">if</span> (<span class="variable">isLoading</span>) <span class="keyword">return</span> <span class="tag">&lt;LoadingSpinner /&gt;</span>;
 
   <span class="keyword">return</span> (
-    <span class="tag">&lt;Card</span> <span class="variable">className</span>=<span class="string">"glass"</span><span class="tag">&gt;</span>
-      <span class="tag">&lt;ReactLogo</span> <span class="variable">active</span>={<span class="variable">glow</span>} <span class="tag">/&gt;</span>
-      <span class="tag">&lt;DataGrid</span> <span class="variable">items</span>={<span class="variable">data</span>} <span class="tag">/&gt;</span>
+    <span class="tag">&lt;Card</span> <span class="variable">className</span>=<span class="string">"glass-panel w-full h-full p-8"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;header</span> <span class="variable">className</span>=<span class="string">"flex justify-between items-center"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;ReactLogo</span> <span class="variable">active</span>={<span class="variable">glow</span>} <span class="variable">size</span>=<span class="string">"lg"</span> <span class="tag">/&gt;</span>
+        <span class="tag">&lt;UserProfile</span> <span class="variable">user</span>={<span class="variable">user</span>} <span class="tag">/&gt;</span>
+      <span class="tag">&lt;/header&gt;</span>
+      <span class="tag">&lt;main</span> <span class="variable">className</span>=<span class="string">"grid grid-cols-12 gap-4 mt-6"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;MetricsPanel</span> <span class="variable">data</span>={<span class="variable">data</span>} <span class="variable">className</span>=<span class="string">"col-span-4"</span> <span class="tag">/&gt;</span>
+        <span class="tag">&lt;DataGrid</span> <span class="variable">items</span>={<span class="variable">data</span>} <span class="variable">className</span>=<span class="string">"col-span-8"</span> <span class="tag">/&gt;</span>
+      <span class="tag">&lt;/main&gt;</span>
     <span class="tag">&lt;/Card&gt;</span>
   );
 }</code></pre>
                             <!-- Duplicated block for seamless scroll loop -->
-                            <pre aria-hidden="true"><code><span class="keyword">import</span> { <span class="variable">useState</span>, <span class="variable">useEffect</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+                            <pre aria-hidden="true"><code><span class="keyword">import</span> { <span class="variable">useState</span>, <span class="variable">useEffect</span>, <span class="variable">useCallback</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { <span class="variable">Card</span>, <span class="variable">ReactLogo</span>, <span class="variable">DataGrid</span> } <span class="keyword">from</span> <span class="string">'@/components'</span>;
+<span class="keyword">import</span> { <span class="variable">useAuth</span> } <span class="keyword">from</span> <span class="string">'@/hooks/useAuth'</span>;
 
-<span class="keyword">export default function</span> <span class="function">App</span>() {
+<span class="keyword">export default function</span> <span class="function">DashboardApp</span>() {
   <span class="keyword">const</span> [<span class="variable">glow</span>, <span class="function">setGlow</span>] = <span class="function">useState</span>(<span class="boolean">true</span>);
   <span class="keyword">const</span> [<span class="variable">data</span>, <span class="function">setData</span>] = <span class="function">useState</span>([]);
+  <span class="keyword">const</span> [<span class="variable">isLoading</span>, <span class="function">setIsLoading</span>] = <span class="function">useState</span>(<span class="boolean">true</span>);
+  <span class="keyword">const</span> { <span class="variable">user</span> } = <span class="function">useAuth</span>();
+
+  <span class="keyword">const</span> <span class="function">loadData</span> = <span class="function">useCallback</span>(<span class="keyword">async</span> () =&gt; {
+    <span class="keyword">try</span> {
+      <span class="function">setIsLoading</span>(<span class="boolean">true</span>);
+      <span class="keyword">const</span> <span class="variable">result</span> = <span class="keyword">await</span> <span class="function">fetchUserData</span>(<span class="variable">user</span>.<span class="variable">id</span>);
+      <span class="function">setData</span>(<span class="variable">result</span>);
+    } <span class="keyword">catch</span> (<span class="variable">error</span>) {
+      <span class="variable">console</span>.<span class="function">error</span>(<span class="string">'Failed to fetch data'</span>, <span class="variable">error</span>);
+    } <span class="keyword">finally</span> {
+      <span class="function">setIsLoading</span>(<span class="boolean">false</span>);
+    }
+  }, [<span class="variable">user</span>]);
 
   <span class="function">useEffect</span>(() =&gt; {
-    <span class="function">fetchData</span>().<span class="function">then</span>(<span class="function">setData</span>);
-  }, []);
+    <span class="keyword">if</span> (<span class="variable">user</span>) <span class="function">loadData</span>();
+  }, [<span class="variable">user</span>, <span class="variable">loadData</span>]);
+
+  <span class="keyword">if</span> (<span class="variable">isLoading</span>) <span class="keyword">return</span> <span class="tag">&lt;LoadingSpinner /&gt;</span>;
 
   <span class="keyword">return</span> (
-    <span class="tag">&lt;Card</span> <span class="variable">className</span>=<span class="string">"glass"</span><span class="tag">&gt;</span>
-      <span class="tag">&lt;ReactLogo</span> <span class="variable">active</span>={<span class="variable">glow</span>} <span class="tag">/&gt;</span>
-      <span class="tag">&lt;DataGrid</span> <span class="variable">items</span>={<span class="variable">data</span>} <span class="tag">/&gt;</span>
+    <span class="tag">&lt;Card</span> <span class="variable">className</span>=<span class="string">"glass-panel w-full h-full p-8"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;header</span> <span class="variable">className</span>=<span class="string">"flex justify-between items-center"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;ReactLogo</span> <span class="variable">active</span>={<span class="variable">glow</span>} <span class="variable">size</span>=<span class="string">"lg"</span> <span class="tag">/&gt;</span>
+        <span class="tag">&lt;UserProfile</span> <span class="variable">user</span>={<span class="variable">user</span>} <span class="tag">/&gt;</span>
+      <span class="tag">&lt;/header&gt;</span>
+      <span class="tag">&lt;main</span> <span class="variable">className</span>=<span class="string">"grid grid-cols-12 gap-4 mt-6"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;MetricsPanel</span> <span class="variable">data</span>={<span class="variable">data</span>} <span class="variable">className</span>=<span class="string">"col-span-4"</span> <span class="tag">/&gt;</span>
+        <span class="tag">&lt;DataGrid</span> <span class="variable">items</span>={<span class="variable">data</span>} <span class="variable">className</span>=<span class="string">"col-span-8"</span> <span class="tag">/&gt;</span>
+      <span class="tag">&lt;/main&gt;</span>
     <span class="tag">&lt;/Card&gt;</span>
   );
 }</code></pre>
@@ -234,6 +282,44 @@
                             <h3>JavaScript (ES6+)</h3>
                             <p class="skill-desc">Asynchronous JS, Promises, DOM Manipulation, and modern syntax.</p>
                         </div>
+                    <div class="code-snippet-bg">
+                        <div class="code-scroll-container" style="animation-duration: 25s;">
+                            <pre><code><span class="keyword">class</span> <span class="function">VirtualDOM</span> {
+  <span class="function">constructor</span>() {
+    <span class="keyword">this</span>.<span class="variable">nodes</span> = <span class="keyword">new</span> <span class="function">Map</span>();
+    <span class="keyword">this</span>.<span class="variable">isRendering</span> = <span class="boolean">false</span>;
+  }
+
+  <span class="keyword">async</span> <span class="function">update</span>(<span class="variable">component</span>, <span class="variable">state</span>) {
+    <span class="keyword">const</span> <span class="variable">oldNode</span> = <span class="keyword">this</span>.<span class="variable">nodes</span>.<span class="function">get</span>(<span class="variable">component</span>.<span class="variable">id</span>);
+    <span class="keyword">const</span> <span class="variable">newNode</span> = <span class="keyword">await</span> <span class="variable">component</span>.<span class="function">render</span>(<span class="variable">state</span>);
+    
+    <span class="keyword">const</span> <span class="variable">patches</span> = <span class="keyword">this</span>.<span class="function">diff</span>(<span class="variable">oldNode</span>, <span class="variable">newNode</span>);
+    <span class="function">requestAnimationFrame</span>(() =&gt; {
+      <span class="keyword">this</span>.<span class="function">apply</span>(<span class="variable">component</span>.<span class="variable">element</span>, <span class="variable">patches</span>);
+      <span class="keyword">this</span>.<span class="variable">nodes</span>.<span class="function">set</span>(<span class="variable">component</span>.<span class="variable">id</span>, <span class="variable">newNode</span>);
+    });
+  }
+}</code></pre>
+                            <pre aria-hidden="true"><code><span class="keyword">class</span> <span class="function">VirtualDOM</span> {
+  <span class="function">constructor</span>() {
+    <span class="keyword">this</span>.<span class="variable">nodes</span> = <span class="keyword">new</span> <span class="function">Map</span>();
+    <span class="keyword">this</span>.<span class="variable">isRendering</span> = <span class="boolean">false</span>;
+  }
+
+  <span class="keyword">async</span> <span class="function">update</span>(<span class="variable">component</span>, <span class="variable">state</span>) {
+    <span class="keyword">const</span> <span class="variable">oldNode</span> = <span class="keyword">this</span>.<span class="variable">nodes</span>.<span class="function">get</span>(<span class="variable">component</span>.<span class="variable">id</span>);
+    <span class="keyword">const</span> <span class="variable">newNode</span> = <span class="keyword">await</span> <span class="variable">component</span>.<span class="function">render</span>(<span class="variable">state</span>);
+    
+    <span class="keyword">const</span> <span class="variable">patches</span> = <span class="keyword">this</span>.<span class="function">diff</span>(<span class="variable">oldNode</span>, <span class="variable">newNode</span>);
+    <span class="function">requestAnimationFrame</span>(() =&gt; {
+      <span class="keyword">this</span>.<span class="function">apply</span>(<span class="variable">component</span>.<span class="variable">element</span>, <span class="variable">patches</span>);
+      <span class="keyword">this</span>.<span class="variable">nodes</span>.<span class="function">set</span>(<span class="variable">component</span>.<span class="variable">id</span>, <span class="variable">newNode</span>);
+    });
+  }
+}</code></pre>
+                        </div>
+                    </div>
                     </div>
                 </div>
 
@@ -250,6 +336,71 @@
                             <p class="skill-desc">Utility-First Design, Responsive Layouts.</p>
                         </div>
                     </div>
+                    <div class="code-snippet-bg">
+                        <div class="code-scroll-container" style="animation-duration: 30s;">
+                            <pre><code><span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"min-h-screen bg-slate-900 text-white p-8"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"max-w-md w-full bg-slate-800 rounded-2xl shadow-2xl"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"p-8"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"flex items-center space-x-4 mb-6"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"shrink-0 relative"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;img</span> <span class="variable">className</span>=<span class="string">"h-16 w-16 rounded-full border-2 border-emerald-500"</span> <span class="tag">/&gt;</span>
+          <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 rounded-full"</span><span class="tag">&gt;</span><span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;div&gt;</span>
+          <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"text-2xl font-bold text-white tracking-tight"</span><span class="tag">&gt;</span>
+            ChitChat UI
+          <span class="tag">&lt;/div&gt;</span>
+          <span class="tag">&lt;p</span> <span class="variable">className</span>=<span class="string">"text-emerald-400 font-medium mt-1"</span><span class="tag">&gt;</span>Online<span class="tag">&lt;/p&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"space-y-4"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"bg-slate-700 p-4 rounded-xl inline-block"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;p</span> <span class="variable">className</span>=<span class="string">"text-slate-200"</span><span class="tag">&gt;</span>Hey! New Tailwind classes?<span class="tag">&lt;/p&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"bg-emerald-600 p-4 rounded-xl inline-block ml-auto block"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;p</span> <span class="variable">className</span>=<span class="string">"text-white"</span><span class="tag">&gt;</span>Yeah, they are insane! 🚀<span class="tag">&lt;/p&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"bg-slate-900 p-4 border-t flex gap-3"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;input</span> <span class="variable">type</span>=<span class="string">"text"</span> <span class="variable">className</span>=<span class="string">"flex-1 bg-slate-800 rounded-lg px-4"</span> <span class="tag">/&gt;</span>
+      <span class="tag">&lt;button</span> <span class="variable">className</span>=<span class="string">"bg-emerald-500 text-white px-4 py-2 rounded-lg"</span><span class="tag">&gt;</span>Send<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></code></pre>
+                            <!-- Duplicated block for seamless scroll loop -->
+                            <pre aria-hidden="true"><code><span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"min-h-screen bg-slate-900 text-white p-8"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"max-w-md w-full bg-slate-800 rounded-2xl shadow-2xl"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"p-8"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"flex items-center space-x-4 mb-6"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"shrink-0 relative"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;img</span> <span class="variable">className</span>=<span class="string">"h-16 w-16 rounded-full border-2 border-emerald-500"</span> <span class="tag">/&gt;</span>
+          <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 rounded-full"</span><span class="tag">&gt;</span><span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;div&gt;</span>
+          <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"text-2xl font-bold text-white tracking-tight"</span><span class="tag">&gt;</span>
+            ChitChat UI
+          <span class="tag">&lt;/div&gt;</span>
+          <span class="tag">&lt;p</span> <span class="variable">className</span>=<span class="string">"text-emerald-400 font-medium mt-1"</span><span class="tag">&gt;</span>Online<span class="tag">&lt;/p&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"space-y-4"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"bg-slate-700 p-4 rounded-xl inline-block"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;p</span> <span class="variable">className</span>=<span class="string">"text-slate-200"</span><span class="tag">&gt;</span>Hey! New Tailwind classes?<span class="tag">&lt;/p&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"bg-emerald-600 p-4 rounded-xl inline-block ml-auto block"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;p</span> <span class="variable">className</span>=<span class="string">"text-white"</span><span class="tag">&gt;</span>Yeah, they are insane! 🚀<span class="tag">&lt;/p&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="variable">className</span>=<span class="string">"bg-slate-900 p-4 border-t flex gap-3"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;input</span> <span class="variable">type</span>=<span class="string">"text"</span> <span class="variable">className</span>=<span class="string">"flex-1 bg-slate-800 rounded-lg px-4"</span> <span class="tag">/&gt;</span>
+      <span class="tag">&lt;button</span> <span class="variable">className</span>=<span class="string">"bg-emerald-500 text-white px-4 py-2 rounded-lg"</span><span class="tag">&gt;</span>Send<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></code></pre>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- CSS3 & HTML5: Small Blocks -->
@@ -262,6 +413,52 @@
                             <h3>CSS3</h3>
                             <p class="skill-desc">Flexbox, Grid, Animations.</p>
                         </div>
+                    <div class="code-snippet-bg">
+                        <div class="code-scroll-container" style="animation-duration: 20s;">
+                            <pre><code><span class="keyword">@keyframes</span> <span class="function">neonGlow</span> {
+  <span class="keyword">0%</span> {
+    <span class="variable">box-shadow</span>: 0 0 5px <span class="string">#fff</span>,
+                0 0 10px <span class="string">#fff</span>,
+                0 0 20px <span class="string">#0fa</span>,
+                0 0 40px <span class="string">#0fa</span>;
+  }
+  <span class="keyword">100%</span> {
+    <span class="variable">box-shadow</span>: 0 0 2px <span class="string">#fff</span>,
+                0 0 5px <span class="string">#fff</span>,
+                0 0 10px <span class="string">#0fa</span>,
+                0 0 20px <span class="string">#0fa</span>;
+  }
+}
+
+<span class="keyword">.glass-card</span> {
+  <span class="variable">background</span>: <span class="function">rgba</span>(<span class="boolean">255</span>, <span class="boolean">255</span>, <span class="boolean">255</span>, <span class="boolean">0.05</span>);
+  <span class="variable">backdrop-filter</span>: <span class="function">blur</span>(10px);
+  <span class="variable">border</span>: 1px solid <span class="function">rgba</span>(<span class="boolean">255</span>, <span class="boolean">255</span>, <span class="boolean">255</span>, <span class="boolean">0.1</span>);
+  <span class="variable">transition</span>: transform 0.3s ease;
+}</code></pre>
+                            <pre aria-hidden="true"><code><span class="keyword">@keyframes</span> <span class="function">neonGlow</span> {
+  <span class="keyword">0%</span> {
+    <span class="variable">box-shadow</span>: 0 0 5px <span class="string">#fff</span>,
+                0 0 10px <span class="string">#fff</span>,
+                0 0 20px <span class="string">#0fa</span>,
+                0 0 40px <span class="string">#0fa</span>;
+  }
+  <span class="keyword">100%</span> {
+    <span class="variable">box-shadow</span>: 0 0 2px <span class="string">#fff</span>,
+                0 0 5px <span class="string">#fff</span>,
+                0 0 10px <span class="string">#0fa</span>,
+                0 0 20px <span class="string">#0fa</span>;
+  }
+}
+
+<span class="keyword">.glass-card</span> {
+  <span class="variable">background</span>: <span class="function">rgba</span>(<span class="boolean">255</span>, <span class="boolean">255</span>, <span class="boolean">255</span>, <span class="boolean">0.05</span>);
+  <span class="variable">backdrop-filter</span>: <span class="function">blur</span>(10px);
+  <span class="variable">border</span>: 1px solid <span class="function">rgba</span>(<span class="boolean">255</span>, <span class="boolean">255</span>, <span class="boolean">255</span>, <span class="boolean">0.1</span>);
+  <span class="variable">transition</span>: transform 0.3s ease;
+}</code></pre>
+                        </div>
+                    </div>
                     </div>
                 </div>
 
@@ -275,6 +472,56 @@
                             <h3>React Native</h3>
                             <p class="skill-desc">Cross-platform mobile app development.</p>
                         </div>
+                    <div class="code-snippet-bg">
+                        <div class="code-scroll-container" style="animation-duration: 25s;">
+                            <pre><code><span class="keyword">import</span> { <span class="variable">View</span>, <span class="variable">Text</span>, <span class="variable">StyleSheet</span>, <span class="variable">Animated</span> } <span class="keyword">from</span> <span class="string">'react-native'</span>;
+<span class="keyword">import</span> { <span class="variable">useRef</span>, <span class="variable">useEffect</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">export default function</span> <span class="function">SwipeCard</span>() {
+  <span class="keyword">const</span> <span class="variable">pan</span> = <span class="function">useRef</span>(<span class="keyword">new</span> <span class="variable">Animated</span>.<span class="function">ValueXY</span>()).<span class="variable">current</span>;
+  
+  <span class="function">useEffect</span>(() =&gt; {
+    <span class="variable">Animated</span>.<span class="function">spring</span>(<span class="variable">pan</span>, {
+      <span class="variable">toValue</span>: { <span class="variable">x</span>: <span class="boolean">0</span>, <span class="variable">y</span>: <span class="boolean">0</span> },
+      <span class="variable">useNativeDriver</span>: <span class="boolean">true</span>,
+    }).<span class="function">start</span>();
+  }, []);
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;Animated.View</span>
+      <span class="variable">style</span>={{
+        <span class="variable">transform</span>: [{ <span class="variable">translateX</span>: <span class="variable">pan</span>.<span class="variable">x</span> }, { <span class="variable">translateY</span>: <span class="variable">pan</span>.<span class="variable">y</span> }]
+      }}
+    <span class="tag">&gt;</span>
+      <span class="tag">&lt;Text</span> <span class="variable">style</span>={<span class="variable">styles</span>.<span class="variable">title</span>}<span class="tag">&gt;</span>Swipe Me<span class="tag">&lt;/Text&gt;</span>
+    <span class="tag">&lt;/Animated.View&gt;</span>
+  );
+}</code></pre>
+                            <pre aria-hidden="true"><code><span class="keyword">import</span> { <span class="variable">View</span>, <span class="variable">Text</span>, <span class="variable">StyleSheet</span>, <span class="variable">Animated</span> } <span class="keyword">from</span> <span class="string">'react-native'</span>;
+<span class="keyword">import</span> { <span class="variable">useRef</span>, <span class="variable">useEffect</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">export default function</span> <span class="function">SwipeCard</span>() {
+  <span class="keyword">const</span> <span class="variable">pan</span> = <span class="function">useRef</span>(<span class="keyword">new</span> <span class="variable">Animated</span>.<span class="function">ValueXY</span>()).<span class="variable">current</span>;
+  
+  <span class="function">useEffect</span>(() =&gt; {
+    <span class="variable">Animated</span>.<span class="function">spring</span>(<span class="variable">pan</span>, {
+      <span class="variable">toValue</span>: { <span class="variable">x</span>: <span class="boolean">0</span>, <span class="variable">y</span>: <span class="boolean">0</span> },
+      <span class="variable">useNativeDriver</span>: <span class="boolean">true</span>,
+    }).<span class="function">start</span>();
+  }, []);
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;Animated.View</span>
+      <span class="variable">style</span>={{
+        <span class="variable">transform</span>: [{ <span class="variable">translateX</span>: <span class="variable">pan</span>.<span class="variable">x</span> }, { <span class="variable">translateY</span>: <span class="variable">pan</span>.<span class="variable">y</span> }]
+      }}
+    <span class="tag">&gt;</span>
+      <span class="tag">&lt;Text</span> <span class="variable">style</span>={<span class="variable">styles</span>.<span class="variable">title</span>}<span class="tag">&gt;</span>Swipe Me<span class="tag">&lt;/Text&gt;</span>
+    <span class="tag">&lt;/Animated.View&gt;</span>
+  );
+}</code></pre>
+                        </div>
+                    </div>
                     </div>
                 </div>
 
@@ -288,6 +535,56 @@
                             <h3>Supabase</h3>
                             <p class="skill-desc">PostgreSQL Databases, Realtime Sync, Auth Rules.</p>
                         </div>
+                    <div class="code-snippet-bg">
+                        <div class="code-scroll-container" style="animation-duration: 25s;">
+                            <pre><code><span class="keyword">import</span> { <span class="variable">createClient</span> } <span class="keyword">from</span> <span class="string">'@supabase/supabase-js'</span>;
+
+<span class="keyword">const</span> <span class="variable">supabaseUrl</span> = <span class="string">'https://xyzcompany.supabase.co'</span>;
+<span class="keyword">const</span> <span class="variable">supabaseKey</span> = <span class="variable">process</span>.<span class="variable">env</span>.<span class="variable">SUPABASE_KEY</span>;
+<span class="keyword">const</span> <span class="variable">supabase</span> = <span class="function">createClient</span>(<span class="variable">supabaseUrl</span>, <span class="variable">supabaseKey</span>);
+
+<span class="keyword">async function</span> <span class="function">getRealtimeUpdates</span>() {
+  <span class="keyword">const</span> <span class="variable">channel</span> = <span class="variable">supabase</span>
+    .<span class="function">channel</span>(<span class="string">'schema-db-changes'</span>)
+    .<span class="function">on</span>(
+      <span class="string">'postgres_changes'</span>,
+      { <span class="variable">event</span>: <span class="string">'*'</span>, <span class="variable">schema</span>: <span class="string">'public'</span>, <span class="variable">table</span>: <span class="string">'messages'</span> },
+      (<span class="variable">payload</span>) =&gt; <span class="variable">console</span>.<span class="function">log</span>(<span class="variable">payload</span>)
+    )
+    .<span class="function">subscribe</span>();
+    
+  <span class="keyword">return</span> <span class="variable">channel</span>;
+}
+
+<span class="keyword">const</span> { <span class="variable">data</span>, <span class="variable">error</span> } = <span class="keyword">await</span> <span class="variable">supabase</span>
+  .<span class="function">from</span>(<span class="string">'users'</span>)
+  .<span class="function">select</span>(<span class="string">'id, name, avatar_url'</span>)
+  .<span class="function">eq</span>(<span class="string">'status'</span>, <span class="string">'ONLINE'</span>);</code></pre>
+                            <pre aria-hidden="true"><code><span class="keyword">import</span> { <span class="variable">createClient</span> } <span class="keyword">from</span> <span class="string">'@supabase/supabase-js'</span>;
+
+<span class="keyword">const</span> <span class="variable">supabaseUrl</span> = <span class="string">'https://xyzcompany.supabase.co'</span>;
+<span class="keyword">const</span> <span class="variable">supabaseKey</span> = <span class="variable">process</span>.<span class="variable">env</span>.<span class="variable">SUPABASE_KEY</span>;
+<span class="keyword">const</span> <span class="variable">supabase</span> = <span class="function">createClient</span>(<span class="variable">supabaseUrl</span>, <span class="variable">supabaseKey</span>);
+
+<span class="keyword">async function</span> <span class="function">getRealtimeUpdates</span>() {
+  <span class="keyword">const</span> <span class="variable">channel</span> = <span class="variable">supabase</span>
+    .<span class="function">channel</span>(<span class="string">'schema-db-changes'</span>)
+    .<span class="function">on</span>(
+      <span class="string">'postgres_changes'</span>,
+      { <span class="variable">event</span>: <span class="string">'*'</span>, <span class="variable">schema</span>: <span class="string">'public'</span>, <span class="variable">table</span>: <span class="string">'messages'</span> },
+      (<span class="variable">payload</span>) =&gt; <span class="variable">console</span>.<span class="function">log</span>(<span class="variable">payload</span>)
+    )
+    .<span class="function">subscribe</span>();
+    
+  <span class="keyword">return</span> <span class="variable">channel</span>;
+}
+
+<span class="keyword">const</span> { <span class="variable">data</span>, <span class="variable">error</span> } = <span class="keyword">await</span> <span class="variable">supabase</span>
+  .<span class="function">from</span>(<span class="string">'users'</span>)
+  .<span class="function">select</span>(<span class="string">'id, name, avatar_url'</span>)
+  .<span class="function">eq</span>(<span class="string">'status'</span>, <span class="string">'ONLINE'</span>);</code></pre>
+                        </div>
+                    </div>
                     </div>
                 </div>
 
@@ -300,17 +597,28 @@
                         <h4>HTML5</h4>
                     </div>
                     <div class="code-snippet-bg">
-                        <div class="code-scroll-container" style="animation-duration: 12s;">
+                        <div class="code-scroll-container" style="animation-duration: 18s;">
                             <pre><code><span class="tag">&lt;!DOCTYPE html&gt;</span>
 <span class="tag">&lt;html</span> <span class="variable">lang</span>=<span class="string">"en"</span><span class="tag">&gt;</span>
 <span class="tag">&lt;head&gt;</span>
   <span class="tag">&lt;meta</span> <span class="variable">charset</span>=<span class="string">"UTF-8"</span><span class="tag">&gt;</span>
-  <span class="tag">&lt;title&gt;</span>App<span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="variable">name</span>=<span class="string">"viewport"</span> <span class="variable">content</span>=<span class="string">"width=device-width"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span>Semantic HTML5<span class="tag">&lt;/title&gt;</span>
 <span class="tag">&lt;/head&gt;</span>
 <span class="tag">&lt;body&gt;</span>
-  <span class="tag">&lt;nav&gt;</span>...<span class="tag">&lt;/nav&gt;</span>
+  <span class="tag">&lt;header&gt;</span>
+    <span class="tag">&lt;nav</span> <span class="variable">aria-label</span>=<span class="string">"Primary"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;ul&gt;</span>
+        <span class="tag">&lt;li&gt;&lt;a</span> <span class="variable">href</span>=<span class="string">"#home"</span><span class="tag">&gt;</span>Home<span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="tag">&lt;li&gt;&lt;a</span> <span class="variable">href</span>=<span class="string">"#about"</span><span class="tag">&gt;</span>About<span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+      <span class="tag">&lt;/ul&gt;</span>
+    <span class="tag">&lt;/nav&gt;</span>
+  <span class="tag">&lt;/header&gt;</span>
   <span class="tag">&lt;main&gt;</span>
-    <span class="tag">&lt;h1&gt;</span>Hello<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;article&gt;</span>
+      <span class="tag">&lt;h1&gt;</span>Semantic Web<span class="tag">&lt;/h1&gt;</span>
+      <span class="tag">&lt;p&gt;</span>Accessibility first.<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/article&gt;</span>
   <span class="tag">&lt;/main&gt;</span>
 <span class="tag">&lt;/body&gt;</span>
 <span class="tag">&lt;/html&gt;</span></code></pre>
@@ -318,12 +626,23 @@
 <span class="tag">&lt;html</span> <span class="variable">lang</span>=<span class="string">"en"</span><span class="tag">&gt;</span>
 <span class="tag">&lt;head&gt;</span>
   <span class="tag">&lt;meta</span> <span class="variable">charset</span>=<span class="string">"UTF-8"</span><span class="tag">&gt;</span>
-  <span class="tag">&lt;title&gt;</span>App<span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="variable">name</span>=<span class="string">"viewport"</span> <span class="variable">content</span>=<span class="string">"width=device-width"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span>Semantic HTML5<span class="tag">&lt;/title&gt;</span>
 <span class="tag">&lt;/head&gt;</span>
 <span class="tag">&lt;body&gt;</span>
-  <span class="tag">&lt;nav&gt;</span>...<span class="tag">&lt;/nav&gt;</span>
+  <span class="tag">&lt;header&gt;</span>
+    <span class="tag">&lt;nav</span> <span class="variable">aria-label</span>=<span class="string">"Primary"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;ul&gt;</span>
+        <span class="tag">&lt;li&gt;&lt;a</span> <span class="variable">href</span>=<span class="string">"#home"</span><span class="tag">&gt;</span>Home<span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="tag">&lt;li&gt;&lt;a</span> <span class="variable">href</span>=<span class="string">"#about"</span><span class="tag">&gt;</span>About<span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+      <span class="tag">&lt;/ul&gt;</span>
+    <span class="tag">&lt;/nav&gt;</span>
+  <span class="tag">&lt;/header&gt;</span>
   <span class="tag">&lt;main&gt;</span>
-    <span class="tag">&lt;h1&gt;</span>Hello<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;article&gt;</span>
+      <span class="tag">&lt;h1&gt;</span>Semantic Web<span class="tag">&lt;/h1&gt;</span>
+      <span class="tag">&lt;p&gt;</span>Accessibility first.<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/article&gt;</span>
   <span class="tag">&lt;/main&gt;</span>
 <span class="tag">&lt;/body&gt;</span>
 <span class="tag">&lt;/html&gt;</span></code></pre>
@@ -373,6 +692,46 @@
                         </div>
                         <h4>Git</h4>
                     </div>
+                    <div class="code-snippet-bg">
+                        <div class="code-scroll-container" style="animation-duration: 20s;">
+                            <pre><code><span class="keyword">$</span> <span class="function">git</span> <span class="variable">commit</span> -m <span class="string">"Fix async bugs"</span>
+[main 7f3a1b2] Fix async bugs
+ 3 files changed, 45 insertions(+), 12 deletions(-)
+
+<span class="keyword">$</span> <span class="function">git</span> <span class="variable">push</span> origin main
+Enumerating objects: 11, done.
+Counting objects: 100% (11/11), done.
+Delta compression using up to 10 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 842 bytes
+Total 6 (delta 4), reused 0 (delta 0)
+To github.com:sahidafridi/portfolio.git
+   d8f3e2a..7f3a1b2  main -&gt; main
+
+<span class="keyword">$</span> <span class="function">git</span> <span class="variable">status</span>
+On branch main
+Your branch is up to date with 'origin/main'.
+nothing to commit, working tree clean</code></pre>
+                            <pre aria-hidden="true"><code><span class="keyword">$</span> <span class="function">git</span> <span class="variable">commit</span> -m <span class="string">"Fix async bugs"</span>
+[main 7f3a1b2] Fix async bugs
+ 3 files changed, 45 insertions(+), 12 deletions(-)
+
+<span class="keyword">$</span> <span class="function">git</span> <span class="variable">push</span> origin main
+Enumerating objects: 11, done.
+Counting objects: 100% (11/11), done.
+Delta compression using up to 10 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 842 bytes
+Total 6 (delta 4), reused 0 (delta 0)
+To github.com:sahidafridi/portfolio.git
+   d8f3e2a..7f3a1b2  main -&gt; main
+
+<span class="keyword">$</span> <span class="function">git</span> <span class="variable">status</span>
+On branch main
+Your branch is up to date with 'origin/main'.
+nothing to commit, working tree clean</code></pre>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="bento-card glass-card center-content" style="--card-color: #ffffff;">
@@ -381,6 +740,46 @@
                             <i class="fab fa-github"></i>
                         </div>
                         <h4>GitHub</h4>
+                    </div>
+                    <div class="code-snippet-bg">
+                        <div class="code-scroll-container" style="animation-duration: 20s;">
+                            <pre><code><span class="keyword">name</span>: <span class="variable">CI/CD Pipeline</span>
+
+<span class="keyword">on</span>:
+  <span class="keyword">push</span>:
+    <span class="variable">branches</span>: [ <span class="string">"main"</span> ]
+
+<span class="keyword">jobs</span>:
+  <span class="function">build</span>:
+    <span class="variable">runs-on</span>: ubuntu-latest
+    <span class="keyword">steps</span>:
+    - <span class="variable">uses</span>: actions/checkout@v3
+    - <span class="keyword">name</span>: <span class="variable">Use Node.js</span>
+      <span class="variable">uses</span>: actions/setup-node@v3
+      <span class="keyword">with</span>:
+        <span class="variable">node-version</span>: <span class="string">'18.x'</span>
+    - <span class="keyword">run</span>: <span class="variable">npm ci</span>
+    - <span class="keyword">run</span>: <span class="variable">npm run build</span>
+    - <span class="keyword">run</span>: <span class="variable">npm test</span></code></pre>
+                            <pre aria-hidden="true"><code><span class="keyword">name</span>: <span class="variable">CI/CD Pipeline</span>
+
+<span class="keyword">on</span>:
+  <span class="keyword">push</span>:
+    <span class="variable">branches</span>: [ <span class="string">"main"</span> ]
+
+<span class="keyword">jobs</span>:
+  <span class="function">build</span>:
+    <span class="variable">runs-on</span>: ubuntu-latest
+    <span class="keyword">steps</span>:
+    - <span class="variable">uses</span>: actions/checkout@v3
+    - <span class="keyword">name</span>: <span class="variable">Use Node.js</span>
+      <span class="variable">uses</span>: actions/setup-node@v3
+      <span class="keyword">with</span>:
+        <span class="variable">node-version</span>: <span class="string">'18.x'</span>
+    - <span class="keyword">run</span>: <span class="variable">npm ci</span>
+    - <span class="keyword">run</span>: <span class="variable">npm run build</span>
+    - <span class="keyword">run</span>: <span class="variable">npm test</span></code></pre>
+                        </div>
                     </div>
                 </div>
 
@@ -394,6 +793,44 @@
                             <h3>FormSubmit</h3>
                             <p class="skill-desc">Serverless form endpoints and backend form routing.</p>
                         </div>
+                    <div class="code-snippet-bg">
+                        <div class="code-scroll-container" style="animation-duration: 22s;">
+                            <pre><code><span class="tag">&lt;form</span> <span class="variable">action</span>=<span class="string">"https://formsubmit.co/your@email.com"</span> <span class="variable">method</span>=<span class="string">"POST"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="variable">type</span>=<span class="string">"hidden"</span> <span class="variable">name</span>=<span class="string">"_subject"</span> <span class="variable">value</span>=<span class="string">"New Message!"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="variable">type</span>=<span class="string">"hidden"</span> <span class="variable">name</span>=<span class="string">"_next"</span> <span class="variable">value</span>=<span class="string">"https://yourdomain.co/thanks"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="variable">type</span>=<span class="string">"hidden"</span> <span class="variable">name</span>=<span class="string">"_captcha"</span> <span class="variable">value</span>=<span class="string">"false"</span><span class="tag">&gt;</span>
+  
+  <span class="tag">&lt;div</span> <span class="variable">class</span>=<span class="string">"form-group"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;label&gt;</span>Email Address<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input</span> <span class="variable">type</span>=<span class="string">"email"</span> <span class="variable">name</span>=<span class="string">"email"</span> <span class="variable">required</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  
+  <span class="tag">&lt;div</span> <span class="variable">class</span>=<span class="string">"form-group"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;label&gt;</span>Message<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;textarea</span> <span class="variable">name</span>=<span class="string">"message"</span> <span class="variable">required</span><span class="tag">&gt;&lt;/textarea&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  
+  <span class="tag">&lt;button</span> <span class="variable">type</span>=<span class="string">"submit"</span><span class="tag">&gt;</span>Send<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+                            <pre aria-hidden="true"><code><span class="tag">&lt;form</span> <span class="variable">action</span>=<span class="string">"https://formsubmit.co/your@email.com"</span> <span class="variable">method</span>=<span class="string">"POST"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="variable">type</span>=<span class="string">"hidden"</span> <span class="variable">name</span>=<span class="string">"_subject"</span> <span class="variable">value</span>=<span class="string">"New Message!"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="variable">type</span>=<span class="string">"hidden"</span> <span class="variable">name</span>=<span class="string">"_next"</span> <span class="variable">value</span>=<span class="string">"https://yourdomain.co/thanks"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="variable">type</span>=<span class="string">"hidden"</span> <span class="variable">name</span>=<span class="string">"_captcha"</span> <span class="variable">value</span>=<span class="string">"false"</span><span class="tag">&gt;</span>
+  
+  <span class="tag">&lt;div</span> <span class="variable">class</span>=<span class="string">"form-group"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;label&gt;</span>Email Address<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input</span> <span class="variable">type</span>=<span class="string">"email"</span> <span class="variable">name</span>=<span class="string">"email"</span> <span class="variable">required</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  
+  <span class="tag">&lt;div</span> <span class="variable">class</span>=<span class="string">"form-group"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;label&gt;</span>Message<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;textarea</span> <span class="variable">name</span>=<span class="string">"message"</span> <span class="variable">required</span><span class="tag">&gt;&lt;/textarea&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  
+  <span class="tag">&lt;button</span> <span class="variable">type</span>=<span class="string">"submit"</span><span class="tag">&gt;</span>Send<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+                        </div>
+                    </div>
                     </div>
                 </div>
 
@@ -403,6 +840,50 @@
                             <i class="fas fa-server"></i>
                         </div>
                         <h4>Hostinger</h4>
+                    </div>
+                    <div class="code-snippet-bg">
+                        <div class="code-scroll-container" style="animation-duration: 20s;">
+                            <pre><code><span class="keyword">$</span> <span class="function">ssh</span> <span class="variable">user@hostinger-vps.com</span>
+Welcome to Ubuntu 22.04 LTS
+
+<span class="keyword">user@vps:~$</span> <span class="function">systemctl</span> <span class="variable">status</span> nginx
+● nginx.service - A high performance web server
+   Loaded: loaded (/lib/systemd/system/nginx.service; enabled)
+   Active: active (running)
+     Docs: man:nginx(8)
+
+<span class="keyword">user@vps:~$</span> <span class="function">cat</span> <span class="string">/etc/nginx/sites-available/portfolio</span>
+server {
+    listen 80;
+    server_name sahidafridi.com;
+    
+    location / {
+        root /var/www/portfolio/html;
+        index index.html;
+        try_files $uri $uri/ =404;
+    }
+}</code></pre>
+                            <pre aria-hidden="true"><code><span class="keyword">$</span> <span class="function">ssh</span> <span class="variable">user@hostinger-vps.com</span>
+Welcome to Ubuntu 22.04 LTS
+
+<span class="keyword">user@vps:~$</span> <span class="function">systemctl</span> <span class="variable">status</span> nginx
+● nginx.service - A high performance web server
+   Loaded: loaded (/lib/systemd/system/nginx.service; enabled)
+   Active: active (running)
+     Docs: man:nginx(8)
+
+<span class="keyword">user@vps:~$</span> <span class="function">cat</span> <span class="string">/etc/nginx/sites-available/portfolio</span>
+server {
+    listen 80;
+    server_name sahidafridi.com;
+    
+    location / {
+        root /var/www/portfolio/html;
+        index index.html;
+        try_files $uri $uri/ =404;
+    }
+}</code></pre>
+                        </div>
                     </div>
                 </div>
 

@@ -1304,12 +1304,13 @@ body {
 .code-snippet-bg {
     position: absolute;
     top: 0;
+    left: 24px;
     right: 24px;
     bottom: 0;
     font-family: 'Fira Code', 'Consolas', monospace;
     font-size: 14px;
     line-height: 1.5;
-    opacity: 0.3;
+    opacity: 0.2;
     transition: all 0.4s ease;
     pointer-events: none;
     z-index: 0;
@@ -1320,7 +1321,7 @@ body {
     align-items: flex-start;
 }
 
-.bento-card.col-2.row-2:hover .code-snippet-bg {
+.bento-card:hover .code-snippet-bg {
     opacity: 0.8;
 }
 
