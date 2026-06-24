@@ -1176,16 +1176,61 @@ body {
     -webkit-backdrop-filter: blur(25px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    
+    /* Magic Bento Properties */
+    --glow-intensity: 0;
+    --glow-x: 50%;
+    --glow-y: 50%;
+    --glow-radius: 300px;
+}
+
+/* Magic Bento Global Spotlight */
+.global-spotlight {
+    position: fixed;
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 200;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+    background: radial-gradient(circle,
+        rgba(132, 0, 255, 0.15) 0%,
+        rgba(132, 0, 255, 0.08) 15%,
+        rgba(132, 0, 255, 0.04) 25%,
+        rgba(132, 0, 255, 0.02) 40%,
+        rgba(132, 0, 255, 0.01) 65%,
+        transparent 70%
+    );
+}
+
+/* Magic Bento Border Glow */
+.bento-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+        var(--glow-radius) circle at var(--glow-x) var(--glow-y),
+        rgba(var(--glow-color, 132, 0, 255), var(--glow-intensity)),
+        transparent 50%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 10;
 }
 
 .bento-card:hover {
-    transform: translateY(-8px);
     border-color: rgba(255, 255, 255, 0.2);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(255, 255, 255, 0.05);
 }

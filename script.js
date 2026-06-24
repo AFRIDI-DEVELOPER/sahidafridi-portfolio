@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSkillBars();
     initContactForm();
     initSmoothScroll();
+    initMagicBento();
 });
 
 /* ============================================
@@ -583,3 +584,299 @@ if (typingText) {
 window.addEventListener('load', () => {
     document.body.classList.add('loaded');
 });
+
+/* ============================================
+   MAGIC BENTO EFFECTS
+   ============================================ */
+function initMagicBento() {
+    if (typeof gsap === 'undefined') return;
+
+    const bentoGrids = document.querySelectorAll('.bento-grid');
+    if (!bentoGrids.length) return;
+
+    const DEFAULT_PARTICLE_COUNT = 12;
+    const DEFAULT_SPOTLIGHT_RADIUS = 300;
+    const DEFAULT_GLOW_COLOR = '132, 0, 255';
+    
+    // Convert hex color to RGB helper
+    function hexToRgb(hex) {
+        if (!hex) return null;
+        hex = hex.replace(/^#/, '');
+        if (hex.length === 3) {
+            hex = hex.split('').map(c => c + c).join('');
+        }
+        const num = parseInt(hex, 16);
+        return `${num >> 16 & 255}, ${num >> 8 & 255}, ${num & 255}`;
+    }
+
+    bentoGrids.forEach(grid => {
+        // Global Spotlight logic
+        const spotlight = document.createElement('div');
+        spotlight.className = 'global-spotlight';
+        document.body.appendChild(spotlight);
+        
+        let isInsideSection = false;
+        const cards = grid.querySelectorAll('.bento-card');
+
+        // Set up each card with variables
+        cards.forEach(card => {
+            // Try to extract card color from inline style to use as glow color
+            let glowColor = DEFAULT_GLOW_COLOR;
+            const style = card.getAttribute('style') || '';
+            const match = style.match(/--card-color:\s*(#[0-9A-Fa-f]{3,6})/);
+            if (match && match[1]) {
+                glowColor = hexToRgb(match[1]) || DEFAULT_GLOW_COLOR;
+            }
+            card.style.setProperty('--glow-color', glowColor);
+            card.dataset.glowColor = glowColor; // store for particle and ripple
+        });
+
+        const updateCardGlowProperties = (card, mouseX, mouseY, glow, radius) => {
+            const rect = card.getBoundingClientRect();
+            const relativeX = ((mouseX - rect.left) / rect.width) * 100;
+            const relativeY = ((mouseY - rect.top) / rect.height) * 100;
+
+            card.style.setProperty('--glow-x', `${relativeX}%`);
+            card.style.setProperty('--glow-y', `${relativeY}%`);
+            card.style.setProperty('--glow-intensity', glow.toString());
+            card.style.setProperty('--glow-radius', `${radius}px`);
+        };
+
+        const handleGridMouseMove = (e) => {
+            const rect = grid.getBoundingClientRect();
+            isInsideSection = (
+                e.clientX >= rect.left && e.clientX <= rect.right && 
+                e.clientY >= rect.top && e.clientY <= rect.bottom
+            );
+
+            if (!isInsideSection) {
+                gsap.to(spotlight, { opacity: 0, duration: 0.3, ease: 'power2.out' });
+                cards.forEach(card => card.style.setProperty('--glow-intensity', '0'));
+                return;
+            }
+
+            const proximity = DEFAULT_SPOTLIGHT_RADIUS * 0.5;
+            const fadeDistance = DEFAULT_SPOTLIGHT_RADIUS * 0.75;
+            let minDistance = Infinity;
+
+            cards.forEach(card => {
+                const cardRect = card.getBoundingClientRect();
+                const centerX = cardRect.left + cardRect.width / 2;
+                const centerY = cardRect.top + cardRect.height / 2;
+                const distance = Math.hypot(e.clientX - centerX, e.clientY - centerY) - Math.max(cardRect.width, cardRect.height) / 2;
+                const effectiveDistance = Math.max(0, distance);
+
+                minDistance = Math.min(minDistance, effectiveDistance);
+
+                let glowIntensity = 0;
+                if (effectiveDistance <= proximity) {
+                    glowIntensity = 1;
+                } else if (effectiveDistance <= fadeDistance) {
+                    glowIntensity = (fadeDistance - effectiveDistance) / (fadeDistance - proximity);
+                }
+
+                updateCardGlowProperties(card, e.clientX, e.clientY, glowIntensity, DEFAULT_SPOTLIGHT_RADIUS);
+            });
+
+            gsap.to(spotlight, {
+                left: e.clientX,
+                top: e.clientY,
+                duration: 0.1,
+                ease: 'power2.out'
+            });
+
+            const targetOpacity = minDistance <= proximity ? 0.8 : 
+                minDistance <= fadeDistance ? ((fadeDistance - minDistance) / (fadeDistance - proximity)) * 0.8 : 0;
+
+            gsap.to(spotlight, {
+                opacity: targetOpacity,
+                duration: targetOpacity > 0 ? 0.2 : 0.5,
+                ease: 'power2.out'
+            });
+        };
+
+        const handleGridMouseLeave = () => {
+            isInsideSection = false;
+            cards.forEach(card => card.style.setProperty('--glow-intensity', '0'));
+            gsap.to(spotlight, { opacity: 0, duration: 0.3, ease: 'power2.out' });
+        };
+
+        document.addEventListener('mousemove', handleGridMouseMove);
+        document.addEventListener('mouseleave', handleGridMouseLeave);
+
+        // Particle and Hover logic for each card
+        cards.forEach(card => {
+            let particlesRef = [];
+            let timeoutsRef = [];
+            let isHovered = false;
+            let magnetismAnimation = null;
+            const glowColor = card.dataset.glowColor;
+
+            const createParticleElement = (x, y) => {
+                const el = document.createElement('div');
+                el.className = 'particle';
+                el.style.cssText = `
+                    position: absolute;
+                    width: 4px;
+                    height: 4px;
+                    border-radius: 50%;
+                    background: rgba(${glowColor}, 1);
+                    box-shadow: 0 0 6px rgba(${glowColor}, 0.6);
+                    pointer-events: none;
+                    z-index: 100;
+                    left: ${x}px;
+                    top: ${y}px;
+                `;
+                return el;
+            };
+
+            const clearAllParticles = () => {
+                timeoutsRef.forEach(clearTimeout);
+                timeoutsRef = [];
+                if (magnetismAnimation) magnetismAnimation.kill();
+
+                particlesRef.forEach(particle => {
+                    gsap.to(particle, {
+                        scale: 0,
+                        opacity: 0,
+                        duration: 0.3,
+                        ease: 'back.in(1.7)',
+                        onComplete: () => {
+                            if (particle.parentNode) particle.parentNode.removeChild(particle);
+                        }
+                    });
+                });
+                particlesRef = [];
+            };
+
+            const animateParticles = () => {
+                const { width, height } = card.getBoundingClientRect();
+                const particleCount = DEFAULT_PARTICLE_COUNT;
+                
+                for(let i = 0; i < particleCount; i++) {
+                    const timeoutId = setTimeout(() => {
+                        if (!isHovered) return;
+                        
+                        const clone = createParticleElement(Math.random() * width, Math.random() * height);
+                        card.appendChild(clone);
+                        particlesRef.push(clone);
+
+                        gsap.fromTo(clone, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.7)' });
+
+                        gsap.to(clone, {
+                            x: (Math.random() - 0.5) * 100,
+                            y: (Math.random() - 0.5) * 100,
+                            rotation: Math.random() * 360,
+                            duration: 2 + Math.random() * 2,
+                            ease: 'none',
+                            repeat: -1,
+                            yoyo: true
+                        });
+
+                        gsap.to(clone, {
+                            opacity: 0.3,
+                            duration: 1.5,
+                            ease: 'power2.inOut',
+                            repeat: -1,
+                            yoyo: true
+                        });
+                    }, i * 100);
+                    timeoutsRef.push(timeoutId);
+                }
+            };
+
+            card.addEventListener('mouseenter', () => {
+                isHovered = true;
+                animateParticles();
+                
+                gsap.to(card, {
+                    rotateX: 5,
+                    rotateY: 5,
+                    duration: 0.3,
+                    ease: 'power2.out',
+                    transformPerspective: 1000
+                });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                isHovered = false;
+                clearAllParticles();
+                
+                gsap.to(card, {
+                    rotateX: 0,
+                    rotateY: 0,
+                    x: 0,
+                    y: 0,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = ((y - centerY) / centerY) * -10;
+                const rotateY = ((x - centerX) / centerX) * 10;
+
+                gsap.to(card, {
+                    rotateX,
+                    rotateY,
+                    duration: 0.1,
+                    ease: 'power2.out',
+                    transformPerspective: 1000
+                });
+
+                const magnetX = (x - centerX) * 0.05;
+                const magnetY = (y - centerY) * 0.05;
+
+                magnetismAnimation = gsap.to(card, {
+                    x: magnetX,
+                    y: magnetY,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+
+            card.addEventListener('click', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const maxDistance = Math.max(
+                    Math.hypot(x, y),
+                    Math.hypot(x - rect.width, y),
+                    Math.hypot(x, y - rect.height),
+                    Math.hypot(x - rect.width, y - rect.height)
+                );
+
+                const ripple = document.createElement('div');
+                ripple.className = 'magic-ripple';
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${maxDistance * 2}px;
+                    height: ${maxDistance * 2}px;
+                    border-radius: 50%;
+                    background: radial-gradient(circle, rgba(${glowColor}, 0.4) 0%, rgba(${glowColor}, 0.2) 30%, transparent 70%);
+                    left: ${x - maxDistance}px;
+                    top: ${y - maxDistance}px;
+                    pointer-events: none;
+                    z-index: 1000;
+                `;
+
+                card.appendChild(ripple);
+
+                gsap.fromTo(ripple, { scale: 0, opacity: 1 }, {
+                    scale: 1,
+                    opacity: 0,
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    onComplete: () => ripple.remove()
+                });
+            });
+        });
+    });
+}
