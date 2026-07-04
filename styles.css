@@ -1826,9 +1826,12 @@ body {
    FOOTER
    ============================================ */
 .footer {
-    padding: 60px 0 30px;
+    padding-top: 50px;
+    height: 350px;
     background: var(--color-bg-secondary);
     border-top: 1px solid var(--glass-border);
+    position: relative;
+    overflow: hidden;
 }
 
 .footer-content {
@@ -1870,6 +1873,7 @@ body {
     display: flex;
     justify-content: space-between;
     padding-top: 30px;
+    margin-top: 90px;
 }
 
 .footer-bottom p {
