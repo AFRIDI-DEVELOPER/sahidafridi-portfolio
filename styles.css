@@ -1450,16 +1450,16 @@ body {
 .project-card {
     overflow: hidden;
     position: relative;
-    border-radius: 24px;
+    border-radius: 16px;
     background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(25px) saturate(180%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
-                box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
-                border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     opacity: 0;
 }
 
@@ -1469,16 +1469,16 @@ body {
 
 .project-card:hover {
     transform: translateY(-8px);
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 
-                0 0 40px rgba(0, 212, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 
+                0 0 20px rgba(255, 255, 255, 0.05);
 }
 
 .project-image {
     position: relative;
     overflow: hidden;
-    border-radius: 23px 23px 0 0;
+    border-radius: 16px 16px 0 0;
 }
 
 .project-img {
@@ -1578,42 +1578,47 @@ body {
 }
 
 .project-info {
-    padding: 28px 24px;
+    padding: 24px;
 }
 
 .project-info h3 {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    letter-spacing: -0.5px;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    letter-spacing: 0;
+    color: #ffffff;
 }
 
 .project-info p {
-    color: rgba(255, 255, 255, 0.65);
-    margin-bottom: 20px;
-    font-size: 14.5px;
-    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: 24px;
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 300;
 }
 
 .project-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
 }
 
 .tag {
-    padding: 6px 14px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 50px;
-    font-size: 13px;
-    color: var(--color-text-muted);
+    padding: 4px 12px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 100px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
     transition: all var(--transition-fast);
+    font-weight: 400;
+    letter-spacing: 0.5px;
 }
 
 .tag:hover {
-    color: var(--color-electric-blue);
-    border-color: var(--color-electric-blue);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 .projects-cta {
@@ -1656,6 +1661,7 @@ body {
     gap: 20px;
     padding: 20px;
     transition: all var(--transition-medium);
+    text-decoration: none;
 }
 
 .contact-item:hover {
@@ -1682,14 +1688,14 @@ body {
     margin-bottom: 4px;
 }
 
-.contact-item a {
+.contact-item .contact-text {
     color: var(--color-text-primary);
     text-decoration: none;
     font-size: 16px;
     transition: color var(--transition-fast);
 }
 
-.contact-item a:hover {
+.contact-item:hover .contact-text {
     color: var(--color-electric-blue);
 }
 
