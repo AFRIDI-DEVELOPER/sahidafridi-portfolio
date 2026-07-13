@@ -1688,14 +1688,16 @@ body {
     margin-bottom: 4px;
 }
 
-.contact-item .contact-text {
+.contact-item .contact-text,
+.contact-item .contact-text a {
     color: var(--color-text-primary);
     text-decoration: none;
     font-size: 16px;
     transition: color var(--transition-fast);
 }
 
-.contact-item:hover .contact-text {
+.contact-item:hover .contact-text,
+.contact-item:hover .contact-text a {
     color: var(--color-electric-blue);
 }
 
