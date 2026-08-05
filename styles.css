@@ -580,6 +580,25 @@ body {
     color: var(--color-text-primary);
 }
 
+
+
+.hero-title.custom-dev-title {
+    font-family: 'Nasalization', sans-serif;
+    line-height: 1.2;
+    text-transform: none; /* Keep aFRIDI DeVELOPeR case */
+    margin-bottom: 30px;
+    font-size: clamp(24px, 4.5vw, 75px); /* decreased to fit on a single row */
+    white-space: nowrap;
+}
+
+.hero-title.custom-dev-title .dev-first,
+.hero-title.custom-dev-title .dev-second {
+    color: #ffffff;
+    display: inline-block;
+    margin-right: 15px; /* add small spacing just in case */
+    letter-spacing: 8px;
+}
+
 /* Gradient text only for the name line */
 /* Black Glassy Text Effect */
 /* Black Glassy Text Effect */
