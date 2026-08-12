@@ -576,7 +576,6 @@ body {
     margin-bottom: 30px;
     font-family: skia;
     letter-spacing: -2px;
-    text-transform: uppercase;
     color: var(--color-text-primary);
 }
 

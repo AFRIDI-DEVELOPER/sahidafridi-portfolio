@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initContactForm();
     initSmoothScroll();
     initMagicBento();
+    initDepthText();
 });
 
 /* ============================================
@@ -879,4 +880,135 @@ function initMagicBento() {
             });
         });
     });
+}
+
+/* ============================================
+   DEPTH TEXT EFFECT
+   ============================================ */
+function initDepthText() {
+    const titleElement = document.getElementById('depth-title');
+    if (!titleElement) return;
+
+    class DepthTextEffect {
+        constructor(element, options) {
+            this.element = element;
+            this.options = Object.assign({
+                layers: 34,
+                depth: 2.4,
+                faceColor: "#f8fafc",
+                depthColor: "#7c3aed",
+                tilt: 7.5,
+                pointerTracking: true,
+                smoothing: 0.14,
+                perspective: 900,
+                autoOrbit: true,
+                orbitSpeed: 0.35,
+                shadow: true
+            }, options);
+            
+            this.init();
+        }
+
+        init() {
+            this.element.innerHTML = '';
+            this.element.style.perspective = `${this.options.perspective}px`;
+            
+            this.wrapper = document.createElement('div');
+            this.wrapper.style.position = 'relative';
+            this.wrapper.style.display = 'inline-block';
+            this.wrapper.style.transformStyle = 'preserve-3d';
+            this.element.appendChild(this.wrapper);
+
+            for (let i = 0; i < this.options.layers; i++) {
+                const span = document.createElement('span');
+                
+                const part1 = document.createElement('span');
+                part1.className = 'dev-first';
+                part1.textContent = 'AFrIDI';
+                
+                const part2 = document.createElement('span');
+                part2.className = 'dev-second';
+                part2.textContent = 'DEVELOPEr';
+                
+                span.appendChild(part1);
+                span.appendChild(document.createTextNode(' '));
+                span.appendChild(part2);
+                
+                span.style.position = i === 0 ? 'relative' : 'absolute';
+                span.style.top = '0';
+                span.style.left = '0';
+                span.style.width = '100%';
+                
+                let color;
+                if (i === 0) {
+                    color = this.options.faceColor;
+                    part1.style.textShadow = '0 0 15px rgba(255,255,255,0.4), 0 0 5px rgba(255,255,255,0.6)';
+                    part2.style.textShadow = '0 0 15px rgba(255,255,255,0.4), 0 0 5px rgba(255,255,255,0.6)';
+                } else {
+                    const fraction = i / (this.options.layers - 1);
+                    const easedFraction = Math.pow(fraction, 0.6); // Curves to rich purple faster
+                    const percent = Math.round(easedFraction * 100);
+                    color = `color-mix(in srgb, ${this.options.depthColor} ${percent}%, ${this.options.faceColor})`;
+                }
+                
+                part1.style.setProperty('color', color, 'important');
+                part2.style.setProperty('color', color, 'important');
+                
+                const zTranslation = -i * this.options.depth;
+                span.style.transform = `translateZ(${zTranslation}px)`;
+                
+                if (this.options.shadow && i === this.options.layers - 1) {
+                    // Premium multi-layered diffused glow
+                    span.style.textShadow = `
+                        0 10px 20px rgba(124, 58, 237, 0.5), 
+                        0 20px 40px rgba(124, 58, 237, 0.4), 
+                        0 40px 80px rgba(124, 58, 237, 0.3)
+                    `;
+                }
+                
+                this.wrapper.appendChild(span);
+            }
+            
+            this.rotX = 0;
+            this.rotY = 0;
+            this.targetRotX = 0;
+            this.targetRotY = 0;
+            
+            if (this.options.pointerTracking) {
+                document.addEventListener('mousemove', (e) => {
+                    const x = (e.clientX / window.innerWidth - 0.5) * 2;
+                    const y = (e.clientY / window.innerHeight - 0.5) * 2;
+                    this.targetRotY = x * this.options.tilt;
+                    this.targetRotX = -y * this.options.tilt;
+                });
+            }
+
+            this.time = 0;
+            this.animate = this.animate.bind(this);
+            requestAnimationFrame(this.animate);
+        }
+
+        animate() {
+            if (this.options.autoOrbit) {
+                this.time += this.options.orbitSpeed * 0.01;
+                const orbitRotY = Math.sin(this.time) * this.options.tilt * 0.5;
+                const orbitRotX = Math.cos(this.time) * this.options.tilt * 0.5;
+                
+                this.rotX += ((this.targetRotX + orbitRotX) - this.rotX) * this.options.smoothing;
+                this.rotY += ((this.targetRotY + orbitRotY) - this.rotY) * this.options.smoothing;
+            } else {
+                this.time += 0.01; // Keep time running for float animation
+                this.rotX += (this.targetRotX - this.rotX) * this.options.smoothing;
+                this.rotY += (this.targetRotY - this.rotY) * this.options.smoothing;
+            }
+            
+            // Premium subtle floating/levitation effect
+            const floatY = Math.sin(this.time * 2) * 8; 
+            
+            this.wrapper.style.transform = `rotateX(${this.rotX}deg) rotateY(${this.rotY}deg) translateY(${floatY}px)`;
+            requestAnimationFrame(this.animate);
+        }
+    }
+
+    new DepthTextEffect(titleElement);
 }
